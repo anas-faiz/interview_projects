@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const { nanoid } = require("nanoid");
 const { connectDb } = require("./config/database")
@@ -19,7 +18,7 @@ app.post("/shorten", async (req, res) => {
     const url = await URL.create({ longUrl, shortCode });
 
     res.json({
-        shortCode: `https://short-url/${shortCode}`
+        shortCode: `http://localhost:4000/${shortCode}`
     })
 
 })
