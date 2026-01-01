@@ -12,10 +12,9 @@ const App = () => {
       const response = await axios.post(
         "http://localhost:4000/shorten",
         { longUrl },
-        { headers: { "Content-Type": "application/json" } }
-      );
+        );
 
-      setShortUrl(response.data.shortUrl);
+      setShortUrl(response.data.shortCode);
     } catch (error) {
       console.error("Error shortening URL:", error);
     }
@@ -40,7 +39,7 @@ const App = () => {
         <div className="mt-4">
           <p>
             Short URL:{" "}
-            <a href={shortUrl} target="_blank" rel="noreferrer">
+            <a href={shortUrl} target="_blank" rel="noreferrer" className="text-blue-400 hover:underline">
               {shortUrl}
             </a>
           </p>
