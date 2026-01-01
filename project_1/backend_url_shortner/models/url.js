@@ -14,4 +14,4 @@ const urlSchema = new mongoose.Schema({
 
 const UrlModel = mongoose.model("URL",urlSchema)
 
-export default urlModel
+export default UrlModel
