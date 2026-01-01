@@ -17,7 +17,7 @@ app.post("/shorten", async (req, res) => {
 
     const shortCode = nanoid(6);
 
-    const url = await URL.create({ longUrl, shortCode });
+    await URL.create({ longUrl, shortCode });
 
     res.json({
         shortCode: `http://localhost:4000/${shortCode}`
