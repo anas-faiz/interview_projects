@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const URL = require("./models/url")
 const { nanoid } = require("nanoid");
 const { connectDb } = require("./config/database")
 require("dotenv").config()
@@ -8,7 +9,8 @@ const app = express();
 
 const port = 4000
 
-app.use(cors);
+app.use(express.json())
+app.use(cors());
 
 app.post("/shorten", async (req, res) => {
     const { longUrl } = req.body;
@@ -27,9 +29,9 @@ app.get("/:code", async (req, res) => {
 
     const url = await URL.findOne({ shortCode: req.params.code });
 
-    if (!url) return res.status(401).json({ "message": "not found" });
+    if (!url) return res.status(404).json({ "message": "not found" });
 
-    res.redirect(URL.longUrl);
+    res.redirect(url.longUrl);
 
 });
 

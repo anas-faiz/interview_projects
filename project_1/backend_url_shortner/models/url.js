@@ -1,11 +1,11 @@
-const mongoose = require("moongoose");
+const mongoose = require("mongoose");
 
 const urlSchema = new mongoose.Schema({
     longUrl: {
     type: String,
     required: true,
     },
-    shortUrl:{
+    shortCode:{
         type: String,
         required: true,
         unique: true
@@ -14,4 +14,4 @@ const urlSchema = new mongoose.Schema({
 
 const UrlModel = mongoose.model("URL",urlSchema)
 
-export default UrlModel
+module.exports =  UrlModel
