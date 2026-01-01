@@ -22,6 +22,15 @@ app.post("/shorten", async (req,res)=>{
 
 })
 
+app.get("/:code", async (req,res)=>{
+
+    const url = await URL.findOne({shortCode: req.params.code});
+
+    if(!url) return res.status(401).json({"message": "not found"});
+
+    res.redirect(URL.longUrl);
+
+});
 
 
 app.listen(port,()=>{
