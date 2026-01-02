@@ -13,8 +13,16 @@ const SignUpValidator = (req)=>{
     else if(!z.password){
         throw new Error("enter a valid password")
     }
+}
 
+const LoginValidator = (req)=>{
+
+    const { email , password} =req.body;
+
+    if(!email || !password ) throw new Error("enter all required details");
+
+    if(!z.email) throw new Error ("enter a valid Email");
 
 }
 
-module.exports = {SignUpValidator}
+module.exports = {SignUpValidator, LoginValidator}
