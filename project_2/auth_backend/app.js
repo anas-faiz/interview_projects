@@ -3,7 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { connectDB } = require("./config/database");
 require("dotenv").config();
-const { SignUpValidator } = require("./utils/validator")
+const { SignUpValidator, loginValidator } = require("./utils/validator");
+const USER = require("./models/user");
 
 const port = 4000;
 
@@ -12,7 +13,6 @@ const app = express();
 app.use(express.json());
 
 app.post("/register", async (req, res) => {
-
   try {
     const { name, email, password } = req.body;
 
@@ -56,6 +56,45 @@ app.post("/register", async (req, res) => {
       message: err.message
     })
   }
+})
+
+app.post("/login" , async(req,res)=>{
+  try{
+
+    const{email,password} = req.body;
+    
+    loginValidator({email,password})
+
+    const user = await USER.findOne({email: email.trim().toLowerCase()});
+
+    if(!user) throw new Error("enter a valid Email");
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if(!isPasswordValid)  throw new Error ("invalid password");
+
+    const token = await jwt.sign({_id:user._id,email:user.email},process.env.jwt_secret,{expiresIn: "1d"});
+
+    res.cookie("token", token , {
+      expires: 60*60*1000,
+    })
+    
+    res.json({
+      sucess: true,
+      message:"logged in successfully",
+      data:{
+        _id: user._id,
+        name:user.name,
+        email:user.email
+      }
+    })
+
+  }catch(error){
+    res.json({
+      sucess: false,
+      message: error.message
+    })
+  }
+
 })
 
 
