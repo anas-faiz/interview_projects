@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 const Login = () => {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
     
-    const handleClick = ()=>{
-        
+    const handleClick = async ()=>{
+        const data = await axios.post("http://localhost:4000/login",
+            {email,password},
+            {withCredentials: true})
     }
 
     return (

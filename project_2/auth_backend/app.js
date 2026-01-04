@@ -1,4 +1,6 @@
 const express = require("express");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { connectDB } = require("./config/database");
@@ -10,6 +12,11 @@ const port = 4000;
 
 const app = express();
 
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+}))
+app.use(cookieParser());
 app.use(express.json());
 
 app.post("/register", async (req, res) => {
