@@ -34,7 +34,6 @@ app.post("/register", async (req, res) => {
     const hashPassword = await bcrypt.hash(password, 10)
 
     //creating a new instance in DB
-
     const user = await USER.create({
       name,
       email: normalizedEmail,
