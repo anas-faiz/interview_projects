@@ -18,13 +18,13 @@ app.post("/products", async (req,res)=>{
 
         productsInputValidation({name, price , category , stock});
 
-        name = name.toLowerCase();
-        category = category.toLowerCase();
+        name = name.trim().toLowerCase();
+        category = category.trim().toLowerCase();
 
         const product = new PRODUCT.create({name,price,category,stock});
 
         res.status(203).json({
-            success: true,
+            sucess: true,
             message: "product details added successfully",
             data: product
         })
@@ -32,7 +32,7 @@ app.post("/products", async (req,res)=>{
 
     }catch(error){
         res.status(400).json({
-            success: false,
+            sucess: false,
             message: `internal server Error : ${error}`,
         })
     }
