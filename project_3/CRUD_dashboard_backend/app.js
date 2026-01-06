@@ -21,7 +21,12 @@ app.post("/products", async (req,res)=>{
         name = name.trim().toLowerCase();
         category = category.trim().toLowerCase();
 
-        const product = new PRODUCT.create({name,price,category,stock});
+        const product = await PRODUCT.create({
+            name,
+            price,
+            category,
+            stock
+        });
 
         res.status(203).json({
             sucess: true,
@@ -29,17 +34,30 @@ app.post("/products", async (req,res)=>{
             data: product
         })
 
-
     }catch(error){
-        res.status(400).json({
+        res.status(404).json({
             sucess: false,
             message: `internal server Error : ${error}`,
         })
     }
-
-
 })
 
+
+app.get("/products", async (req, res) => {
+  try {
+    const data = await PRODUCT.find();
+
+    res.status(200).json({
+      success: true,
+      data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+});
 
 
 
