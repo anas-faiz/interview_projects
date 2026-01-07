@@ -12,7 +12,7 @@ app.use(express.json());
 
 const port = 4000
 
-app.post("/products", async (req,res)=>{    
+app.post("/products/add", async (req,res)=>{    
     try{
         const {name ,price , category , stock} = req.body;
 
@@ -42,7 +42,6 @@ app.post("/products", async (req,res)=>{
     }
 })
 
-
 app.get("/products", async (req, res) => {
   try {
     const data = await PRODUCT.find();
@@ -58,6 +57,45 @@ app.get("/products", async (req, res) => {
     });
   }
 });
+
+app.patch("/products/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, price, category, stock } = req.body;
+
+    productsInputValidation({ name, price, category, stock });
+
+    const product = await PRODUCT.findById(id);
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    // update only if provided
+    if (name !== undefined) product.name = name.trim();
+    if (price !== undefined) product.price = Number(price);
+    if (category !== undefined) product.category = category.trim();
+    if (stock !== undefined) product.stock = Number(stock);
+
+    const savedProduct = await product.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Inventory updated",
+      data: savedProduct,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+});
+
+
+
 
 
 
