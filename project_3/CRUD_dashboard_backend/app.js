@@ -94,39 +94,28 @@ app.patch("/products/:id", async (req, res) => {
   }
 });
 
-app.delete("/product/:id", async (req,res)=>{
-  try{
+app.delete("/product/:id", async (req, res) => {
+  try {
+    const deletedProduct = await PRODUCT.findByIdAndDelete(req.params.id);
 
-    const {id} = req.params;
-
-    const product = await PRODUCT.findById(id);
-
-    if(!product) {
-      return(
-      res.status(404).json({
+    if (!deletedProduct) {
+      return res.status(404).json({
         success: false,
-        message: "Product not Found",
-      }))
+        message: "Product not found",
+      });
     }
-
-    await product.deleteOne();
 
     res.status(200).json({
       success: true,
-      message: "product removed successfully"
-    })
-
-  }catch(error){
+      message: "Product removed successfully",
+    });
+  } catch (error) {
     res.status(500).json({
       success: false,
-      message:"internal server error"
-    })
+      message: "Internal server error",
+    });
   }
-})
-
-
-
-
+});
 
 app.listen(port,()=>{
     console.log("server active on port ", port);
