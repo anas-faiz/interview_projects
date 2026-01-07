@@ -94,6 +94,35 @@ app.patch("/products/:id", async (req, res) => {
   }
 });
 
+app.delete("/product/:id", async (req,res)=>{
+  try{
+
+    const {id} = req.params;
+
+    const product = await PRODUCT.findById(id);
+
+    if(!product) {
+      return(
+      res.status(404).json({
+        success: false,
+        message: "Product not Found",
+      }))
+    }
+
+    await product.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      message: "product removed successfully"
+    })
+
+  }catch(error){
+    res.status(500).json({
+      success: false,
+      message:"internal server error"
+    })
+  }
+})
 
 
 
