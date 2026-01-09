@@ -3,7 +3,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const productsInputValidation = require('./utils/validators');
 const PRODUCT = require('./models/products');
-
+const connectDB = require('./config/database')
+require("dotenv").config()
 const app = express();
 
 app.use(cors());
@@ -117,6 +118,12 @@ app.delete("/product/:id", async (req, res) => {
   }
 });
 
-app.listen(port,()=>{
+connectDB()
+.then(()=>{
+  console.log("datatbase connected")
+  app.listen(port,()=>{
     console.log("server active on port ", port);
+})
+}).catch((error)=>{
+  console.log("database unable connect");
 })

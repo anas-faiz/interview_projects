@@ -1,5 +1,3 @@
-
-
 const productsInputValidation = ({name, price, category, stock})=>{
 
     if(!name.trim() || !price.trim() || !category.trim() || !stock.trim()){
