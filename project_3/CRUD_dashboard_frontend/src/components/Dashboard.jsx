@@ -16,6 +16,7 @@ const Dashboard = ()=>{
         })
 
         const data = await res.json()
+        console.lof(data);
     }
 
     return(
