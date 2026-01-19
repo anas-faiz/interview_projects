@@ -6,6 +6,7 @@ const Dashboard = ()=>{
     const [price,setPrice] = useState('');
     const [stock,setStock] = useState('');
     const [category,setCategory] = useState('');
+    const [isAddProduct,setIsAddProduct] = useState(false)
 
     const handleSubmit = async ()=>{
         const res = await axios.post("http:localhost:3000/product/add",{
@@ -16,7 +17,9 @@ const Dashboard = ()=>{
         })
 
         const data = await res.json()
-        console.lof(data);
+        console.log(data);
+
+        setIsAddProduct(!isAddProduct);
     }
 
     return(
@@ -27,7 +30,8 @@ const Dashboard = ()=>{
                 <input value={price} onChange={(e)=>setPrice(e.target.value)}  placeholder="price" />
                 <input value={stock} onChange={(e)=>setStock(e.target.value)} placeholder="stock" />
                 <input value={category} onChange={(e)=>setCategory(e.target.value)} placeholder="category" />                
-                <button onSubmit={handleSubmit} >ADD product</button>
+                <button onSubmit={handleSubmit} >ADD PRODUCT</button>
+                {isAddProduct && (<button onSubmit={handleSubmit} >EDIT PRODUCT</button>)}
             </form>
         </div>
     )
