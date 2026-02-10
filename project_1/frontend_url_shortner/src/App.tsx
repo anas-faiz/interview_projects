@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
+
 const App = () => {
   const [longUrl, setLongUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
@@ -45,6 +46,7 @@ const App = () => {
           </p>
         </div>
       )}
+      <UsersTable/>
     </div>
   );
 };
